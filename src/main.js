@@ -1,6 +1,3 @@
 'use strict';
-module.exports = {
-    test: function () {
-        return 1;
-    }
-};
+function DI () {}
+module.exports = DI;
