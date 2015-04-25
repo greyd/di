@@ -4,7 +4,8 @@
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
-    "lint": "gulp jshint",
+    "publishToCodeclimate": "codeclimate < coverage/lcov.info",
+    "jshint": "gulp jshint",
     "test": "gulp test"
   },
   "repository": {
