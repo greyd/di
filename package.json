@@ -4,7 +4,7 @@
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node specs/"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/greyd/di",
   "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-istanbul": "^0.8.1",
+    "gulp-jasmine": "^2.0.1",
     "jasmine-node": "^1.14.5"
   }
 }
