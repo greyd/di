@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/greyd/di",
   "devDependencies": {
+    "codeclimate-test-reporter": "0.0.4",
     "gulp": "^3.8.11",
     "gulp-istanbul": "^0.8.1",
     "gulp-jasmine": "^2.0.1",
