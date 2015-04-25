@@ -1,4 +1,5 @@
-var DI = require('../src/main')
+'use strict';
+var DI = require('../src/main');
 describe('DI::', function () {
     it('should just work', function () {
         expect(true).toBe(true);
