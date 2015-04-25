@@ -13,7 +13,6 @@ var combinePath = combinePathFor(pathConf);
 
 gulp.task('jshint', function() {
     var src = combinePath('src', 'specs', 'gulpfile');
-    console.log(src);
     return gulp.src(src)
         .pipe(gulpJshint())
         .pipe(gulpJshint.reporter('default'));
