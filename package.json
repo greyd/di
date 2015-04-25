@@ -4,6 +4,7 @@
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
+    "lint": "gulp jshint",
     "test": "gulp test"
   },
   "repository": {
@@ -26,6 +27,7 @@
     "gulp": "^3.8.11",
     "gulp-istanbul": "^0.8.1",
     "gulp-jasmine": "^2.0.1",
+    "gulp-jshint": "^1.10.0",
     "jasmine-node": "^1.14.5"
   }
 }

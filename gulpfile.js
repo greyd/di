@@ -1,7 +1,13 @@
-var istanbul = require('gulp-istanbul');
-var jasmine = require('gulp-jasmine');
 var gulp = require('gulp');
+var jshint = require('gulp-jshint');
+var jasmine = require('gulp-jasmine');
+var istanbul = require('gulp-istanbul');
 
+gulp.task('jshint', function() {
+    return gulp.src(['./{specs, src}/*.js', 'gulpfile'])
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'));
+});
 
 gulp.task('test', function (cb) {
     gulp.src(['src/**/*.js'])
