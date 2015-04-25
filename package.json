@@ -4,7 +4,7 @@
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node specs/"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/greyd/di/issues"
   },
-  "homepage": "https://github.com/greyd/di"
+  "homepage": "https://github.com/greyd/di",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
 }
