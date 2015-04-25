@@ -9,13 +9,12 @@ var pathConf = {
     specs: './specs/**/*.js',
     gulpfile: 'gulpfile.js'
 };
+var combinePath = combinePathFor(pathConf);
 
 gulp.task('jshint', function() {
-    var src = _(pathConf)
-        .pick('src', 'specs', 'gulpfile')
-        .values()
-        .value();
-    return gulp.src(_.values())
+    var src = combinePath('src', 'specs', 'gulpfile');
+    console.log(src);
+    return gulp.src(src)
         .pipe(gulpJshint())
         .pipe(gulpJshint.reporter('default'));
 });
@@ -26,7 +25,7 @@ gulp.task('test', function () {
 });
 
 gulp.task('tdd', function () {
-    gulp.watch(pathConf.specs, ['test']);
+    gulp.watch(combinePath('src', 'specs'), ['test']);
 });
 
 gulp.task('test-report', function (cb) {
@@ -41,3 +40,12 @@ gulp.task('test-report', function (cb) {
         });
 });
 gulp.task('default', ['test', 'jshint']);
+
+function combinePathFor (conf) {
+    return function (/* args*/) {
+        return _(conf)
+            .pick(arguments)
+            .values()
+            .value();
+    };
+}

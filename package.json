@@ -6,7 +6,7 @@
   "scripts": {
     "publishToCodeclimate": "codeclimate < coverage/lcov.info",
     "jshint": "gulp jshint",
-    "test": "gulp test",
+    "test": "gulp test-report",
     "tdd": "gulp tdd"
   },
   "repository": {
