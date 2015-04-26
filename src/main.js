@@ -4,7 +4,8 @@ var msg = utils.msgFor('Injector');
 function DI () {
     var register = {};
     return {
-        add: addTo(register)
+        add: addTo(register),
+        get: getFrom(register)
     };
 }
 module.exports = DI;
@@ -14,5 +15,13 @@ function addTo (reg) {
         if (reg[name]) throw msg('Module <' + name + '> has been already registered');
         reg[name] = impl;
         return this;
+    };
+}
+function getFrom (reg) {
+    return function (deps, next) {
+        var opts = deps.map(function(dep) {
+            return reg[dep];
+        });
+        next.apply(null, opts);
     };
 }
