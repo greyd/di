@@ -44,20 +44,27 @@ describe('DI::', function () {
             result(checkDeps(this.depsObj));
         });
         it('should resolve nested dependencies', function () {
+            var deps = ['z', 'sum'];
             injectDeps(this.injector, {
                 x: function () {return 1;},
                 y: function () {return 2;},
                 z: {
                     impl: function (x, y) {return x + y;},
                     deps: ['x', 'y']
+                },
+                sum: {
+                    impl: function (x,y,z) {return x + y + z;},
+                    deps: ['x', 'y', 'z']
                 }
             });
-            this.injector.get(['z'], function (z) {
+            this.injector.get(deps, function (z, sum) {
                 expect(z).toBe(3);
+                expect(sum).toBe(6);
             });
-            var result = this.injector.get(['z']);
-            result(function (z) {
+            var result = this.injector.get(deps);
+            result(function (z, sum) {
                 expect(z).toBe(3);
+                expect(sum).toBe(6);
             });
         });
     });
