@@ -29,7 +29,7 @@ describe('DI::', function () {
     });
 
     describe('get()->', function () {
-        var deps = ['a', 'b', 'c', 'd'];
+        var deps = ['a', 'b', 'c'];
         beforeEach(init(injector, addDeps));
         it('should rise an exception if a desired module does not exist', function () {
             var name = 'z';
@@ -42,6 +42,23 @@ describe('DI::', function () {
         it('should return a function if a callback was omitted', function () {
             var result = this.injector.get(deps);
             result(checkDeps(this.depsObj));
+        });
+        it('should resolve nested dependencies', function () {
+            injectDeps(this.injector, {
+                x: function () {return 1;},
+                y: function () {return 2;},
+                z: {
+                    impl: function (x, y) {return x + y;},
+                    deps: ['x', 'y']
+                }
+            });
+            this.injector.get(['z'], function (z) {
+                expect(z).toBe(3);
+            });
+            var result = this.injector.get(['z']);
+            result(function (z) {
+                expect(z).toBe(3);
+            });
         });
     });
 });
@@ -61,20 +78,23 @@ function addDeps() {
     this.depsObj = {
         a: 1,
         b: {test: 1},
-        c: [1, 2, 3],
-        d: function() {return 4;}
+        c: [1, 2, 3]
     };
-    this.injector
-        .add('a', 1)
-        .add('b', this.depsObj.b)
-        .add('c', this.depsObj.c)
-        .add('d', this.depsObj.d);
+    injectDeps (this.injector, this.depsObj);
+}
+function injectDeps (injector, obj) {
+    Object.keys(obj).forEach(function(name) {
+        var module = obj[name];
+        var args = utils.isModule(module) ? [module.impl, module.deps] : [module];
+
+        injector.add.apply(null, [name].concat(args));
+    });
+    return injector;
 }
 function checkDeps(depsObj) {
     return function (a, b, c, d) {
         expect(a).toBe(depsObj.a);
         expect(b).toBe(depsObj.b);
         expect(c).toBe(depsObj.c);
-        expect(d).toBe(depsObj.d);
     };
 }

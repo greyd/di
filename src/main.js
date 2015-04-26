@@ -13,15 +13,21 @@ function addTo (reg) {
     return function (name, impl, deps) {
         if (!name) throw msg('Module name should be specified');
         if (reg[name]) throw msg('Module <' + name + '> has been already registered');
-        reg[name] = impl;
+        impl = typeof impl === 'function' ? impl : utils.constant(impl);
+        reg[name] = {
+            impl: impl,
+            deps: deps
+        };
         return this;
     };
 }
 function getFrom (reg) {
-    return function (deps, next) {
+    return function resolve(deps, next) {
         var opts = deps.map(function(name) {
-            if(!reg[name]) throw msg('Module <' + name + '> has not been registered');
-            return reg[name];
+            var module = reg[name];
+            if(!module) throw msg('Module <' + name + '> has not been registered');
+            if (module.deps) return resolve(module.deps, module.impl);
+            return module.impl();
         });
         if (next) return next.apply(null, opts);
         return function (cb) {
