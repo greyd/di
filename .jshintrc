@@ -8,5 +8,6 @@
   "devel": true,
   "strict": true,
   "globalstrict": true,
+  "validthis": true,
   "indent": 4
 }
