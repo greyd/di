@@ -17,12 +17,14 @@ describe('DI::', function () {
             this.injector = DI();
         });
         it('should return a link to the current injector', function () {
-            expect(_.partial(this.injector.add)).toThrow(msg('Module name should be specified'));
+            var message = msg('Module name should be specified');
+            expect(_.partial(this.injector.add)).toThrow(message);
         });
         it('should fail if a user tries to add module with already registered name', function () {
             var name = 'a';
+            var message = msg('Module <' + name + '> has been already registered');
             this.injector.add(name, 1);
-            expect(_.partial(this.injector.add, name, 2)).toThrow(msg('Module <' + name + '> has been already registered'));
+            expect(_.partial(this.injector.add, name, 2)).toThrow(message);
         });
     });
 
@@ -31,7 +33,8 @@ describe('DI::', function () {
         beforeEach(init(injector, addDeps));
         it('should rise an exception if a desired module does not exist', function () {
             var name = 'z';
-            expect(_.partial(this.injector.get, [name])).toThrow(msg('Module <' + name + '> has not been registered'));
+            var message = msg('Module <' + name + '> has not been registered');
+            expect(_.partial(this.injector.get, [name])).toThrow(message);
         });
         it('should pass to a callback stored modules', function () {
             this.injector.get(deps, checkDeps(this.depsObj));
