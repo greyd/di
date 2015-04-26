@@ -19,8 +19,9 @@ function addTo (reg) {
 }
 function getFrom (reg) {
     return function (deps, next) {
-        var opts = deps.map(function(dep) {
-            return reg[dep];
+        var opts = deps.map(function(name) {
+            if(!reg[name]) throw msg('Module <' + name + '> has not been registered');
+            return reg[name];
         });
         if (next) return next.apply(null, opts);
         return function (cb) {

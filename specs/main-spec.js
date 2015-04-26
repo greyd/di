@@ -29,6 +29,10 @@ describe('DI::', function () {
     describe('get()->', function () {
         var deps = ['a', 'b', 'c', 'd'];
         beforeEach(init(injector, addDeps));
+        it('should rise an exception if a desired module does not exist', function () {
+            var name = 'z';
+            expect(_.partial(this.injector.get, [name])).toThrow(msg('Module <' + name + '> has not been registered'));
+        });
         it('should pass to a callback stored modules', function () {
             this.injector.get(deps, checkDeps(this.depsObj));
         });
