@@ -27,15 +27,14 @@ describe('DI::', function () {
     });
 
     describe('get()->', function () {
+        var deps = ['a', 'b', 'c', 'd'];
         beforeEach(init(injector, addDeps));
-        it('should return a stored module', function () {
-            var depsObj = this.depsObj;
-            this.injector.get(['a', 'b', 'c', 'd'], function (a, b, c, d) {
-                expect(a).toBe(depsObj.a);
-                expect(b).toBe(depsObj.b);
-                expect(c).toBe(depsObj.c);
-                expect(d).toBe(depsObj.d);
-            });
+        it('should pass to a callback stored modules', function () {
+            this.injector.get(deps, checkDeps(this.depsObj));
+        });
+        it('should return a function if a callback was omitted', function () {
+            var result = this.injector.get(deps);
+            result(checkDeps(this.depsObj));
         });
     });
 });
@@ -63,4 +62,12 @@ function addDeps() {
         .add('b', this.depsObj.b)
         .add('c', this.depsObj.c)
         .add('d', this.depsObj.d);
+}
+function checkDeps(depsObj) {
+    return function (a, b, c, d) {
+        expect(a).toBe(depsObj.a);
+        expect(b).toBe(depsObj.b);
+        expect(c).toBe(depsObj.c);
+        expect(d).toBe(depsObj.d);
+    };
 }

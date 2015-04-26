@@ -22,6 +22,9 @@ function getFrom (reg) {
         var opts = deps.map(function(dep) {
             return reg[dep];
         });
-        next.apply(null, opts);
+        if (next) return next.apply(null, opts);
+        return function (cb) {
+            return cb.apply(null, opts);
+        };
     };
 }
