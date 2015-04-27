@@ -11,9 +11,6 @@ module.exports = {
         };
     },
     isModule: function(obj) {
-        return typeof obj === 'object' &&
-            Object.keys(obj).length === 2 &&
-            typeof obj.impl === 'function' &&
-            obj.deps;
+        return typeof obj === 'object' && typeof obj.impl === 'function';
     }
 };
