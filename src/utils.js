@@ -19,6 +19,6 @@ module.exports = {
             return (function(args) {
                 return function(callback) { return fn.apply(null, args.concat([callback])); };
             })(__s.call(arguments));
-        }
+        };
     }
 };
