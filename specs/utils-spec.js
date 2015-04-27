@@ -19,10 +19,30 @@ describe('UTILS::', function () {
         });
     });
     
-    describe('isModule() ->', function () {
+    describe('isModule()->', function () {
         it('should be true if an argument is object and has "impl" method', function () {
             expect(utils.isModule({impl: function () {}})).toBe(true);
             expect(utils.isModule({test: function () {}})).toBe(false);
         });
     });
+
+    describe('deferrable()->', function () {
+        beforeEach(addAsync());
+        it('should split initialization of function by 3 steps', function (done) {
+            var name = 2;
+            utils.deferrable(this.async)(name)(function (data) {
+                expect(data).toBe(name);
+                done();
+            });
+        });
+    });
 });
+function addAsync() {
+    return function () {
+        this.async = function (name, cb) {
+            setTimeout(function () {
+                cb(name);
+            }, 0);
+        };
+    };
+}

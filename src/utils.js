@@ -1,4 +1,5 @@
 'use strict';
+var __s = Array.prototype.slice;
 module.exports = {
     msgFor: function (module) {
         return function (message) {
@@ -12,5 +13,12 @@ module.exports = {
     },
     isModule: function(obj) {
         return typeof obj === 'object' && typeof obj.impl === 'function';
+    },
+    deferrable: function (fn) {
+        return function() {
+            return (function(args) {
+                return function(callback) { return fn.apply(null, args.concat([callback])); };
+            })(__s.call(arguments));
+        }
     }
 };
