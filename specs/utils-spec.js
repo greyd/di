@@ -36,6 +36,23 @@ describe('UTILS::', function () {
             });
         });
     });
+
+    describe('asyncFor()->', function () {
+        beforeEach(addAsync());
+        it('should call next after all async data will be fetched', function (done) {
+            utils.asyncFor(
+                this.defAsync(1),
+                this.defAsync(2),
+                this.defAsync(3),
+                function (a,b,c) {
+                    expect(a).toBe(1);
+                    expect(b).toBe(2);
+                    expect(c).toBe(3);
+                    done();
+                }
+            );
+        });
+    });
 });
 function addAsync() {
     return function () {
@@ -44,5 +61,6 @@ function addAsync() {
                 cb(name);
             }, 0);
         };
+        this.defAsync = utils.deferrable(this.async);
     };
 }
