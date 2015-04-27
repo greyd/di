@@ -23,8 +23,12 @@ describe('DI::', function () {
         it('should fail if a user tries to add module with already registered name', function () {
             var name = 'a';
             var message = msg('Module <' + name + '> has been already registered');
-            this.injector.add(name, 1);
-            expect(_.partial(this.injector.add, name, 2)).toThrow(message);
+            var args = {
+                name: name,
+                impl: 1
+            };
+            this.injector.add(args);
+            expect(_.partial(this.injector.add, args)).toThrow(message);
         });
     });
 
@@ -46,8 +50,12 @@ describe('DI::', function () {
         it('should resolve nested dependencies', function () {
             var deps = ['z', 'sum'];
             injectDeps(this.injector, {
-                x: function () {return 1;},
-                y: function () {return 2;},
+                x: {
+                    impl: function () {return 1;}
+                },
+                y: {
+                    impl: function () {return 2;}
+                },
                 z: {
                     impl: function (x, y) {return x + y;},
                     deps: ['x', 'y']
@@ -83,25 +91,24 @@ function injector() {
 }
 function addDeps() {
     this.depsObj = {
-        a: 1,
-        b: {test: 1},
-        c: [1, 2, 3]
+        a: {impl: 1},
+        b: {impl: {test: 1}},
+        c: {impl: [1, 2, 3]}
     };
     injectDeps (this.injector, this.depsObj);
 }
 function injectDeps (injector, obj) {
     Object.keys(obj).forEach(function(name) {
         var module = obj[name];
-        var args = utils.isModule(module) ? [module.impl, module.deps] : [module];
-
-        injector.add.apply(null, [name].concat(args));
+        module.name = name;
+        injector.add(module);
     });
     return injector;
 }
 function checkDeps(depsObj) {
-    return function (a, b, c, d) {
-        expect(a).toBe(depsObj.a);
-        expect(b).toBe(depsObj.b);
-        expect(c).toBe(depsObj.c);
+    return function (a, b, c) {
+        expect(a).toBe(depsObj.a.impl);
+        expect(b).toBe(depsObj.b.impl);
+        expect(c).toBe(depsObj.c.impl);
     };
 }

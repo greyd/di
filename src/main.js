@@ -10,9 +10,14 @@ function DI () {
 }
 module.exports = DI;
 function addTo (reg) {
-    return function (name, impl, deps) {
+    return function (obj) {
+        obj = obj || {};
+        var name = obj.name;
+        var impl = obj.impl;
+        var deps = obj.deps;
         if (!name) throw msg('Module name should be specified');
         if (reg[name]) throw msg('Module <' + name + '> has been already registered');
+
         impl = typeof impl === 'function' ? impl : utils.constant(impl);
         reg[name] = {
             impl: impl,
