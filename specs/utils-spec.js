@@ -45,9 +45,30 @@ describe('UTILS::', function () {
                 this.defAsync(2),
                 this.defAsync(3),
                 function (a,b,c) {
-                    expect(a).toBe(1);
-                    expect(b).toBe(2);
-                    expect(c).toBe(3);
+                    expect(a).toEqual(1);
+                    expect(b).toEqual(2);
+                    expect(c).toEqual(3);
+                    done();
+                }
+            );
+        });
+        it('should handle nested asyncFor', function (done) {
+            var defAsyncCompose = utils.deferrable(utils.asyncCompose(this.asyncSum));
+            utils.asyncFor(
+                defAsyncCompose(
+                    defAsyncCompose(
+                        this.defAsync(1),
+                        this.defAsync(2)
+                    ),
+                    defAsyncCompose(
+                        this.defAsync(1),
+                        this.defAsync(2)
+                    )
+                ),
+                this.defAsync(3),
+                function (a, b) {
+                    expect(a).toEqual(6);
+                    expect(b).toEqual(3);
                     done();
                 }
             );
@@ -60,6 +81,11 @@ function addAsync() {
             setTimeout(function () {
                 cb(name);
             }, 0);
+        };
+        this.asyncSum = function () {
+            var args = Array.prototype.slice.call(arguments);
+            var cb = args.pop();
+            cb(args.reduce(function (a, b) {return a + b;}, 0));
         };
         this.defAsync = utils.deferrable(this.async);
     };
