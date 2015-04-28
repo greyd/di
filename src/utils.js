@@ -5,6 +5,7 @@ module.exports = {
     constant: constant,
     isModule: isModule,
     deferrable: deferrable,
+    callbackify: callbackify,
     asyncCompose: asyncCompose,
     asyncFor: asyncCompose(identityArr)
 };
@@ -41,6 +42,13 @@ function asyncCompose (handler) {
                 if (ready === args.length) handler.apply(null, result.concat(next));
             });
         });
+    };
+}
+function callbackify (fn) {
+    return function () {
+        var args = __s.call(arguments);
+        var next = args.pop();
+        next(fn.apply(null, args));
     };
 }
 function identityArr () {

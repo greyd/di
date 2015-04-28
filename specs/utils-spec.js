@@ -74,6 +74,31 @@ describe('UTILS::', function () {
             );
         });
     });
+
+    describe('callbackify() ->', function () {
+        beforeEach(addSync());
+        it('should wrap sync function and put into callback result of its invokation', function (done) {
+            var defAsyncCompose = utils.deferrable(utils.asyncCompose(utils.callbackify(this.sum)));
+            utils.asyncFor(
+                defAsyncCompose(
+                    defAsyncCompose(
+                        this.defSync(1),
+                        this.defSync(2)
+                    ),
+                    defAsyncCompose(
+                        this.defSync(1),
+                        this.defSync(2)
+                    )
+                ),
+                this.defSync(3),
+                function (a, b) {
+                    expect(a).toEqual(6);
+                    expect(b).toEqual(3);
+                    done();
+                }
+            );
+        });
+    });
 });
 function addAsync() {
     return function () {
@@ -88,5 +113,17 @@ function addAsync() {
             cb(args.reduce(function (a, b) {return a + b;}, 0));
         };
         this.defAsync = utils.deferrable(this.async);
+    };
+}
+function addSync() {
+    return function () {
+        this.sync = function (name) {
+            return name;
+        };
+        this.sum = function () {
+            var args = Array.prototype.slice.call(arguments);
+            return args.reduce(function (a, b) {return a + b;}, 0);
+        };
+        this.defSync = utils.deferrable(utils.callbackify(this.sync));
     };
 }
