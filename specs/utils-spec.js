@@ -90,7 +90,10 @@ describe('UTILS::', function () {
                         this.defSync(2)
                     )
                 ),
-                this.defSync(3),
+                defAsyncCompose(
+                    this.defSync(1),
+                    this.defSync(2)
+                ),
                 function (a, b) {
                     expect(a).toEqual(6);
                     expect(b).toEqual(3);

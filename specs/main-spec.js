@@ -84,18 +84,52 @@ describe('DI::', function () {
             expect(_.partial(this.injector.getAsync, [name])).toThrow(message);
         });
         it('should handle async modules', function (done) {
-            injectDeps(this.injector, {
+            asyncInjectDeps(this.injector, {
                 x: {
                     impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
                 },
                 y: {
                     impl: function (cb) {setTimeout(function () {cb(2);}, 0);}
+                },
+                z: {
+                    impl: function (x, cb) {
+                        setTimeout(function () {cb(x + 10);}, 0);
+                    },
+                    deps: ['x']
+                },
+                test: {
+                    impl: function (x, z, cb) {
+                        setTimeout(function () {cb(x + z);}, 0);
+                    },
+                    deps: ['x', 'z']
                 }
             });
 
-            this.injector.getAsync(['x', 'y'], function (x, y) {
+            this.injector.getAsync(['x', 'y', 'z', 'test'], function (x, y, z, test) {
                 expect(x).toBe(1);
                 expect(y).toBe(2);
+                expect(z).toBe(11);
+                expect(test).toBe(12);
+                done();
+            });
+        });
+        it('should resolve nested dependencies', function (done) {
+            asyncInjectDeps(this.injector, {
+                x: {
+                    impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
+                },
+                y: {
+                    impl: function (cb) {setTimeout(function () {cb(2);}, 0);}
+                },
+                z: {
+                    impl: function (x, y, cb) {setTimeout(function () {cb(x + y);}, 0);},
+                    deps: ['x', 'y']
+                }
+            });
+            this.injector.getAsync(['x', 'y', 'z'], function (x, y, z) {
+                expect(x).toBe(1);
+                expect(y).toBe(2);
+                expect(z).toBe(3);
                 done();
             });
         });
@@ -126,6 +160,14 @@ function injectDeps (injector, obj) {
         var module = obj[name];
         module.name = name;
         injector.add(module);
+    });
+    return injector;
+}
+function asyncInjectDeps (injector, obj) {
+    Object.keys(obj).forEach(function(name) {
+        var module = obj[name];
+        module.name = name;
+        injector.addAsync(module);
     });
     return injector;
 }
