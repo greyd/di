@@ -76,6 +76,30 @@ describe('DI::', function () {
             });
         });
     });
+    describe('getAsync()->', function () {
+        beforeEach(init(injector));
+        it('should rise an exception if a desired module does not exist', function () {
+            var name = 'z';
+            var message = msg('Module <' + name + '> has not been registered');
+            expect(_.partial(this.injector.getAsync, [name])).toThrow(message);
+        });
+        it('should handle async modules', function (done) {
+            injectDeps(this.injector, {
+                x: {
+                    impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
+                },
+                y: {
+                    impl: function (cb) {setTimeout(function () {cb(2);}, 0);}
+                }
+            });
+
+            this.injector.getAsync(['x', 'y'], function (x, y) {
+                expect(x).toBe(1);
+                expect(y).toBe(2);
+                done();
+            });
+        });
+    });
 });
 function init() {
     var fns = Array.prototype.slice.call(arguments);

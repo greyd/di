@@ -5,7 +5,8 @@ function DI () {
     var register = {};
     return {
         add: addTo(register),
-        get: getFrom(register)
+        get: getFrom(register),
+        getAsync: getAsyncFrom(register)
     };
 }
 module.exports = DI;
@@ -38,5 +39,22 @@ function getFrom (reg) {
         return function (cb) {
             return cb.apply(null, opts);
         };
+    };
+}
+function getAsyncFrom(reg) {
+    return function (deps, next) {
+        var opts = deps.map(function(name) {
+            var module = reg[name];
+            if(!module) throw msg('Module <' + name + '> has not been registered');
+            return utils.deferrable(module.impl)();
+        });
+        opts.push(function () {
+            next.apply(null, arguments);
+        });
+        utils.asyncFor.apply(utils, opts);
+        /*if (next) return next.apply(null, opts);
+        return function (cb) {
+            return cb.apply(null, opts);
+        };*/
     };
 }
