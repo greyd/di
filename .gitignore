@@ -1,3 +1,4 @@
 .idea
+.sonar
 node_modules
 coverage
