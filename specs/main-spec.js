@@ -156,21 +156,19 @@ function addDeps() {
     };
     injectDeps (this.injector, this.depsObj);
 }
-function injectDeps (injector, obj) {
+function abstractInjectDeps(injector, obj, method) {
     Object.keys(obj).forEach(function(name) {
         var module = obj[name];
         module.name = name;
-        injector.add(module);
+        injector[method](module);
     });
     return injector;
 }
+function injectDeps (injector, obj) {
+    return abstractInjectDeps(injector, obj, 'add');
+}
 function asyncInjectDeps (injector, obj) {
-    Object.keys(obj).forEach(function(name) {
-        var module = obj[name];
-        module.name = name;
-        injector.addAsync(module);
-    });
-    return injector;
+    return abstractInjectDeps(injector, obj, 'addAsync');
 }
 function checkDeps(depsObj) {
     return function (a, b, c) {
