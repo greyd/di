@@ -84,6 +84,7 @@ describe('DI::', function () {
             expect(_.partial(this.injector.getAsync, [name])).toThrow(message);
         });
         it('should handle async modules', function (done) {
+            /*jshint maxparams: 4*/
             asyncInjectDeps(this.injector, {
                 x: {
                     impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
