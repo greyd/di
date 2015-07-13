@@ -35,7 +35,7 @@ function asyncCompose(handler) {
     return function () {
         var args = __s.call(arguments);
         var next = args.pop();
-        var ready=0;
+        var ready = 0;
         var result = [];
         args.forEach(function (fn, index) {
             fn(function (data) {
