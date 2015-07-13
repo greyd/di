@@ -17,7 +17,7 @@ gulp.task('jshint', function () {
     var src = combinePath('src', 'specs', 'gulpfile');
     return gulp.src(src)
         .pipe(gulpJshint())
-        .pipe(gulpJshint.reporter('default'));
+        .pipe(gulpJshint.reporter('jshint-stylish'));
 });
 
 gulp.task('jscs', function () {
