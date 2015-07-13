@@ -1,0 +1,7 @@
+{
+  "requireCurlyBraces": null,
+  "disallowMixedSpacesAndTabs": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowPaddingNewLinesAfterUseStrict": true,
+  "disallowSpaceAfterObjectKeys": true
+}

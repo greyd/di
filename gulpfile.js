@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var gulpJshint = require('gulp-jshint');
 var gulpJasmine = require('gulp-jasmine');
 var gulpIstanbul = require('gulp-istanbul');
+var gulpJscs = require('gulp-jscs');
 var pathConf = {
     src: './src/**/*.js',
     specs: './specs/**/*.js',
@@ -17,6 +18,14 @@ gulp.task('jshint', function() {
         .pipe(gulpJshint())
         .pipe(gulpJshint.reporter('default'));
 });
+
+gulp.task('jscs', function() {
+    var src = combinePath('src', 'specs', 'gulpfile');
+    return gulp.src(src)
+        .pipe(gulpJscs());
+});
+
+gulp.task('lint', ['jshint', 'jscs']);
 
 gulp.task('test', function () {
     return gulp.src(pathConf.specs)

@@ -5,6 +5,6 @@ addons:
   code_climate:
     repo_token: "e55c7b21ecb92332a55e3c8fe98821a8feaa3dc2ca9cb4f64f146e451762202c"
 before_script:
-  - npm run jshint
+  - npm run link
 after_script:
   - npm run publishToCodeclimate

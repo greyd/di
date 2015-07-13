@@ -6,6 +6,8 @@
   "scripts": {
     "publishToCodeclimate": "codeclimate < coverage/lcov.info",
     "jshint": "gulp jshint",
+    "jscs": "gulp jscs",
+    "lint": "gulp lint",
     "test": "gulp test-report",
     "tdd": "gulp tdd",
     "beforeCommit": "npm run jshint && npm run test"
@@ -30,6 +32,7 @@
     "gulp": "^3.8.11",
     "gulp-istanbul": "^0.10.0",
     "gulp-jasmine": "^2.0.1",
+    "gulp-jscs": "^1.6.0",
     "gulp-jshint": "^1.10.0",
     "jasmine-node": "^1.14.5",
     "lodash": "^3.7.0"
