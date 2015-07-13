@@ -10,7 +10,7 @@
     "lint": "gulp lint",
     "test": "gulp test-report",
     "tdd": "gulp tdd",
-    "beforeCommit": "npm run jshint && npm run test"
+    "beforeCommit": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
