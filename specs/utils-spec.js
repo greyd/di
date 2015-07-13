@@ -18,7 +18,7 @@ describe('UTILS::', function () {
             expect(test(1)).toBe(1);
         });
     });
-    
+
     describe('isModule()->', function () {
         it('should be true if an argument is object and has "impl" method', function () {
             expect(utils.isModule({impl: function () {}})).toBe(true);
@@ -44,7 +44,7 @@ describe('UTILS::', function () {
                 this.defAsync(1),
                 this.defAsync(2),
                 this.defAsync(3),
-                function (a,b,c) {
+                function (a, b, c) {
                     expect(a).toEqual(1);
                     expect(b).toEqual(2);
                     expect(c).toEqual(3);

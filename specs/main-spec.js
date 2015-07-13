@@ -61,7 +61,7 @@ describe('DI::', function () {
                     deps: ['x', 'y']
                 },
                 sum: {
-                    impl: function (x,y,z) {return x + y + z;},
+                    impl: function (x, y, z) {return x + y + z;},
                     deps: ['x', 'y', 'z']
                 }
             });
