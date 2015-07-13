@@ -21,8 +21,14 @@ describe('UTILS::', function () {
 
     describe('isModule()->', function () {
         it('should be true if an argument is object and has "impl" method', function () {
-            expect(utils.isModule({impl: function () {}})).toBe(true);
-            expect(utils.isModule({test: function () {}})).toBe(false);
+            expect(utils.isModule({
+                impl: function () {
+                }
+            })).toBe(true);
+            expect(utils.isModule({
+                test: function () {
+                }
+            })).toBe(false);
         });
     });
 
@@ -113,7 +119,9 @@ function addAsync() {
         this.asyncSum = function () {
             var args = Array.prototype.slice.call(arguments);
             var cb = args.pop();
-            cb(args.reduce(function (a, b) {return a + b;}, 0));
+            cb(args.reduce(function (a, b) {
+                return a + b;
+            }, 0));
         };
         this.defAsync = utils.deferrable(this.async);
     };
@@ -125,7 +133,9 @@ function addSync() {
         };
         this.sum = function () {
             var args = Array.prototype.slice.call(arguments);
-            return args.reduce(function (a, b) {return a + b;}, 0);
+            return args.reduce(function (a, b) {
+                return a + b;
+            }, 0);
         };
         this.defSync = utils.deferrable(utils.callbackify(this.sync));
     };

@@ -12,14 +12,14 @@ var pathConf = {
 };
 var combinePath = combinePathFor(pathConf);
 
-gulp.task('jshint', function() {
+gulp.task('jshint', function () {
     var src = combinePath('src', 'specs', 'gulpfile');
     return gulp.src(src)
         .pipe(gulpJshint())
         .pipe(gulpJshint.reporter('default'));
 });
 
-gulp.task('jscs', function() {
+gulp.task('jscs', function () {
     var src = combinePath('src', 'specs', 'gulpfile');
     return gulp.src(src)
         .pipe(gulpJscs());
@@ -49,7 +49,7 @@ gulp.task('test-report', function (cb) {
 });
 gulp.task('default', ['test', 'jshint']);
 
-function combinePathFor (conf) {
+function combinePathFor(conf) {
     return function (/* args*/) {
         return _(conf)
             .pick(arguments)

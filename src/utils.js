@@ -9,27 +9,29 @@ module.exports = {
     asyncCompose: asyncCompose,
     asyncFor: asyncCompose(identityArr)
 };
-function msgFor (module) {
+function msgFor(module) {
     return function (message) {
         return ['[', module, ']=> ', message].join('');
     };
 }
-function constant (val) {
+function constant(val) {
     return function () {
         return val;
     };
 }
-function isModule (obj) {
+function isModule(obj) {
     return typeof obj === 'object' && typeof obj.impl === 'function';
 }
-function deferrable (fn) {
-    return function() {
-        return (function(args) {
-            return function(callback) { return fn.apply(null, args.concat([callback])); };
+function deferrable(fn) {
+    return function () {
+        return (function (args) {
+            return function (callback) {
+                return fn.apply(null, args.concat([callback]));
+            };
         })(__s.call(arguments));
     };
 }
-function asyncCompose (handler) {
+function asyncCompose(handler) {
     return function () {
         var args = __s.call(arguments);
         var next = args.pop();
@@ -44,14 +46,14 @@ function asyncCompose (handler) {
         });
     };
 }
-function callbackify (fn) {
+function callbackify(fn) {
     return function () {
         var args = __s.call(arguments);
         var next = args.pop();
         next(fn.apply(null, args));
     };
 }
-function identityArr () {
+function identityArr() {
     var args = __s.call(arguments);
     var next = args.pop();
     next.apply(null, args);

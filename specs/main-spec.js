@@ -51,17 +51,25 @@ describe('DI::', function () {
             var deps = ['z', 'sum'];
             injectDeps(this.injector, {
                 x: {
-                    impl: function () {return 1;}
+                    impl: function () {
+                        return 1;
+                    }
                 },
                 y: {
-                    impl: function () {return 2;}
+                    impl: function () {
+                        return 2;
+                    }
                 },
                 z: {
-                    impl: function (x, y) {return x + y;},
+                    impl: function (x, y) {
+                        return x + y;
+                    },
                     deps: ['x', 'y']
                 },
                 sum: {
-                    impl: function (x, y, z) {return x + y + z;},
+                    impl: function (x, y, z) {
+                        return x + y + z;
+                    },
                     deps: ['x', 'y', 'z']
                 }
             });
@@ -87,20 +95,32 @@ describe('DI::', function () {
             /*jshint maxparams: 4*/
             asyncInjectDeps(this.injector, {
                 x: {
-                    impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
+                    impl: function (cb) {
+                        setTimeout(function () {
+                            cb(1);
+                        }, 0);
+                    }
                 },
                 y: {
-                    impl: function (cb) {setTimeout(function () {cb(2);}, 0);}
+                    impl: function (cb) {
+                        setTimeout(function () {
+                            cb(2);
+                        }, 0);
+                    }
                 },
                 z: {
                     impl: function (x, cb) {
-                        setTimeout(function () {cb(x + 10);}, 0);
+                        setTimeout(function () {
+                            cb(x + 10);
+                        }, 0);
                     },
                     deps: ['x']
                 },
                 test: {
                     impl: function (x, z, cb) {
-                        setTimeout(function () {cb(x + z);}, 0);
+                        setTimeout(function () {
+                            cb(x + z);
+                        }, 0);
                     },
                     deps: ['x', 'z']
                 }
@@ -117,13 +137,25 @@ describe('DI::', function () {
         it('should resolve nested dependencies', function (done) {
             asyncInjectDeps(this.injector, {
                 x: {
-                    impl: function (cb) {setTimeout(function () {cb(1);}, 0);}
+                    impl: function (cb) {
+                        setTimeout(function () {
+                            cb(1);
+                        }, 0);
+                    }
                 },
                 y: {
-                    impl: function (cb) {setTimeout(function () {cb(2);}, 0);}
+                    impl: function (cb) {
+                        setTimeout(function () {
+                            cb(2);
+                        }, 0);
+                    }
                 },
                 z: {
-                    impl: function (x, y, cb) {setTimeout(function () {cb(x + y);}, 0);},
+                    impl: function (x, y, cb) {
+                        setTimeout(function () {
+                            cb(x + y);
+                        }, 0);
+                    },
                     deps: ['x', 'y']
                 }
             });
@@ -154,20 +186,20 @@ function addDeps() {
         b: {impl: {test: 1}},
         c: {impl: [1, 2, 3]}
     };
-    injectDeps (this.injector, this.depsObj);
+    injectDeps(this.injector, this.depsObj);
 }
 function abstractInjectDeps(injector, obj, method) {
-    Object.keys(obj).forEach(function(name) {
+    Object.keys(obj).forEach(function (name) {
         var module = obj[name];
         module.name = name;
         injector[method](module);
     });
     return injector;
 }
-function injectDeps (injector, obj) {
+function injectDeps(injector, obj) {
     return abstractInjectDeps(injector, obj, 'add');
 }
-function asyncInjectDeps (injector, obj) {
+function asyncInjectDeps(injector, obj) {
     return abstractInjectDeps(injector, obj, 'addAsync');
 }
 function checkDeps(depsObj) {

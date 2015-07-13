@@ -1,7 +1,7 @@
 'use strict';
 var utils = require('./utils');
 var msg = utils.msgFor('Injector');
-function DI () {
+function DI() {
     var register = {};
     return {
         add: addTo(register),
@@ -11,7 +11,7 @@ function DI () {
     };
 }
 module.exports = DI;
-function addTo (reg) {
+function addTo(reg) {
     return function (obj) {
         obj = obj || {};
         var name = obj.name;
@@ -28,11 +28,11 @@ function addTo (reg) {
         return this;
     };
 }
-function getFrom (reg) {
+function getFrom(reg) {
     return function resolve(deps, next) {
-        var opts = deps.map(function(name) {
+        var opts = deps.map(function (name) {
             var module = reg[name];
-            if(!module) throw msg('Module <' + name + '> has not been registered');
+            if (!module) throw msg('Module <' + name + '> has not been registered');
             if (module.deps) return resolve(module.deps, module.impl);
             return module.impl();
         });
@@ -42,7 +42,7 @@ function getFrom (reg) {
         };
     };
 }
-function addAsyncTo (reg) {
+function addAsyncTo(reg) {
     return function (obj) {
         obj = obj || {};
         var name = obj.name;
@@ -52,7 +52,7 @@ function addAsyncTo (reg) {
         //if (reg[name]) throw msg('Module <' + name + '> has been already registered');
 
         impl = typeof impl === 'function' ? impl : utils.constant(impl);
-        var opts = (deps || []).map(function(name) {
+        var opts = (deps || []).map(function (name) {
             return reg[name].impl;
         });
         reg[name] = {
@@ -64,9 +64,9 @@ function addAsyncTo (reg) {
 }
 function getAsyncFrom(reg) {
     return function resolveAsync(deps, next) {
-        var opts = (deps || []).map(function(name) {
+        var opts = (deps || []).map(function (name) {
             var module = reg[name];
-            if(!module) throw msg('Module <' + name + '> has not been registered');
+            if (!module) throw msg('Module <' + name + '> has not been registered');
             return module.impl;
         });
         opts.push(next);
