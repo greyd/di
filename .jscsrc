@@ -1,7 +1,9 @@
 {
-  "requireCurlyBraces": null,
-  "disallowMixedSpacesAndTabs": true,
-  "disallowMultipleLineBreaks": true,
-  "disallowPaddingNewLinesAfterUseStrict": true,
-  "disallowSpaceAfterObjectKeys": true
+	"preset": "crockford",
+	"requireMultipleVarDecl": null,
+	"disallowSpacesInFunctionDeclaration": null,
+	"requireSpaceAfterKeywords": null,
+	"requireCurlyBraces": null,
+	"disallowDanglingUnderscores": null,
+	"requireBlocksOnNewline": null
 }
