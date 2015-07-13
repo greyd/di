@@ -1,5 +1,6 @@
 {
 	"preset": "crockford",
+    "maxErrors": 5,
 	"requireMultipleVarDecl": null,
 	"disallowSpacesInFunctionDeclaration": null,
 	"requireSpaceAfterKeywords": null,

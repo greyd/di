@@ -5,6 +5,7 @@ var gulpJshint = require('gulp-jshint');
 var gulpJasmine = require('gulp-jasmine');
 var gulpIstanbul = require('gulp-istanbul');
 var gulpJscs = require('gulp-jscs');
+var gulpUtil = require('gulp-util');
 var pathConf = {
     src: './src/**/*.js',
     specs: './specs/**/*.js',
@@ -22,7 +23,8 @@ gulp.task('jshint', function () {
 gulp.task('jscs', function () {
     var src = combinePath('src', 'specs', 'gulpfile');
     return gulp.src(src)
-        .pipe(gulpJscs());
+        .pipe(gulpJscs())
+        .on('error', handleError);
 });
 
 gulp.task('lint', ['jshint', 'jscs']);
@@ -56,4 +58,9 @@ function combinePathFor(conf) {
             .values()
             .value();
     };
+}
+
+function handleError(err) {
+    gulpUtil.log(gulpUtil.colors.red('JSCS Error\n'), err.message);
+    this.emit('end');
 }
