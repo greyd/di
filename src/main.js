@@ -11,7 +11,7 @@ function DI() {
     };
 }
 module.exports = DI;
-function addTo(reg) {
+function addTo(reg, unused_argument) {
     return function (obj) {
         obj = obj || {};
         var name = obj.name;
