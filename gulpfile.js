@@ -6,6 +6,7 @@ var gulpJshint = require('gulp-jshint');
 var gulpJasmine = require('gulp-jasmine');
 var gulpIstanbul = require('gulp-istanbul');
 var gulpJscs = require('gulp-jscs');
+var gulpJscpd = require('gulp-jscpd');
 var gulpUtil = require('gulp-util');
 var pathConf = {
     src: './src/**/*.js',
@@ -30,8 +31,15 @@ gulp.task('jscs', function () {
         .pipe(gulpJscs())
         .on('error', handleError);
 });
-
-gulp.task('lint', ['jshint', 'jscs']);
+gulp.task('jscpd', function() {
+    var src = combinePath('src', 'specs', 'gulpfile');
+    return gulp.src(src)
+        .pipe(gulpJscpd({
+            'min-lines': 5,
+            verbose    : true
+        }));
+});
+gulp.task('lint', ['jshint', 'jscs', 'jscpd']);
 
 gulp.task('test', function () {
     return gulp.src(pathConf.specs)

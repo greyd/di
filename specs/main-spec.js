@@ -94,27 +94,27 @@ describe('DI::', function () {
         it('should handle async modules', function (done) {
             /*jshint maxparams: 4*/
             asyncInjectDeps(this.injector, {
-                x: {
+                a: {
                     impl: function (cb) {
                         setTimeout(function () {
                             cb(1);
                         }, 0);
                     }
                 },
-                y: {
+                b: {
                     impl: function (cb) {
                         setTimeout(function () {
                             cb(2);
                         }, 0);
                     }
                 },
-                z: {
+                c: {
                     impl: function (x, cb) {
                         setTimeout(function () {
                             cb(x + 10);
                         }, 0);
                     },
-                    deps: ['x']
+                    deps: ['a']
                 },
                 test: {
                     impl: function (x, z, cb) {
@@ -122,11 +122,11 @@ describe('DI::', function () {
                             cb(x + z);
                         }, 0);
                     },
-                    deps: ['x', 'z']
+                    deps: ['a', 'c']
                 }
             });
 
-            this.injector.getAsync(['x', 'y', 'z', 'test'], function (x, y, z, test) {
+            this.injector.getAsync(['a', 'b', 'c', 'test'], function (x, y, z, test) {
                 expect(x).toBe(1);
                 expect(y).toBe(2);
                 expect(z).toBe(11);

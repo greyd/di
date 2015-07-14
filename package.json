@@ -10,6 +10,7 @@
     "lint": "gulp lint",
     "test": "gulp test-report",
     "tdd": "gulp tdd",
+    "cpd": "jscpd",
     "beforeCommit": "npm run lint && npm run test"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "gulp": "^3.8.11",
     "gulp-istanbul": "^0.10.0",
     "gulp-jasmine": "^2.0.1",
+    "gulp-jscpd": "0.0.4",
     "gulp-jscs": "^1.6.0",
     "gulp-jshint": "^1.10.0",
     "gulp-util": "^3.0.6",
