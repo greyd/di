@@ -14,7 +14,7 @@ var pathConf = {
     gulpfile: 'gulpfile.js',
     reports: './reports',
     platoReport: './reports/plato',
-    covarageReport: './reports/coverage'
+    coverageReport: './reports/coverage'
 };
 var combinePath = combinePathFor(pathConf);
 
@@ -31,6 +31,7 @@ gulp.task('jscs', function () {
         .pipe(gulpJscs())
         .on('error', handleError);
 });
+
 gulp.task('jscpd', function() {
     var src = combinePath('src', 'specs', 'gulpfile');
     return gulp.src(src)
@@ -39,6 +40,7 @@ gulp.task('jscpd', function() {
             verbose    : true
         }));
 });
+
 gulp.task('lint', ['jshint', 'jscs', 'jscpd']);
 
 gulp.task('test', function () {
@@ -58,12 +60,13 @@ gulp.task('test-report', function (cb) {
             gulp.src(pathConf.specs)
                 .pipe(gulpJasmine())
                 .pipe(gulpIstanbul.writeReports({
-                    dir: './reports/coverage',
+                    dir: pathConf.coverageReport,
                     reporters: ['lcov', 'json', 'text', 'text-summary']
                 }))
                 .on('end', cb);
         });
 });
+
 gulp.task('default', ['test', 'jshint']);
 
 gulp.task('plato', function (cb) {
@@ -78,6 +81,7 @@ gulp.task('plato', function (cb) {
 });
 
 gulp.task('report', ['plato', 'test-report']);
+
 function combinePathFor(conf) {
     return function (/* args*/) {
         return _(conf)
