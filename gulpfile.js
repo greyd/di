@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('lodash');
+var plato = require('plato');
 var gulp = require('gulp');
 var gulpJshint = require('gulp-jshint');
 var gulpJasmine = require('gulp-jasmine');
@@ -9,7 +10,10 @@ var gulpUtil = require('gulp-util');
 var pathConf = {
     src: './src/**/*.js',
     specs: './specs/**/*.js',
-    gulpfile: 'gulpfile.js'
+    gulpfile: 'gulpfile.js',
+    reports: './reports',
+    platoReport: './reports/plato',
+    covarageReport: './reports/coverage'
 };
 var combinePath = combinePathFor(pathConf);
 
@@ -45,12 +49,27 @@ gulp.task('test-report', function (cb) {
         .on('finish', function () {
             gulp.src(pathConf.specs)
                 .pipe(gulpJasmine())
-                .pipe(gulpIstanbul.writeReports())
+                .pipe(gulpIstanbul.writeReports({
+                    dir: './reports/coverage',
+                    reporters: ['lcov', 'json', 'text', 'text-summary']
+                }))
                 .on('end', cb);
         });
 });
 gulp.task('default', ['test', 'jshint']);
 
+gulp.task('plato', function (cb) {
+    var files = [pathConf.src, pathConf.specs, pathConf.gulpfile];
+    var dest = pathConf.platoReport;
+    var options = {
+        title: 'Complexity of a DI'
+    };
+    plato.inspect(files, dest, options, function() {
+        cb();
+    });
+});
+
+gulp.task('report', ['plato', 'test-report']);
 function combinePathFor(conf) {
     return function (/* args*/) {
         return _(conf)
