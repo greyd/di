@@ -1,6 +1,7 @@
 'use strict';
 var _ = require('lodash');
 var gulp = require('gulp');
+var gulpJscpd = require('gulp-jscpd');
 var gulpJshint = require('gulp-jshint');
 var gulpJasmine = require('gulp-jasmine');
 var gulpIstanbul = require('gulp-istanbul');
@@ -27,7 +28,16 @@ gulp.task('jscs', function () {
         .on('error', handleError);
 });
 
-gulp.task('lint', ['jshint', 'jscs']);
+gulp.task('jscpd', function() {
+    var src = combinePath('src', 'specs', 'gulpfile');
+    return gulp.src(src)
+        .pipe(gulpJscpd({
+            'min-lines': 5,
+            verbose    : true
+        }));
+});
+
+gulp.task('lint', ['jshint', 'jscs', 'jscpd']);
 
 gulp.task('test', function () {
     return gulp.src(pathConf.specs)
