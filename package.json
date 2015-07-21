@@ -1,10 +1,10 @@
 {
   "name": "di",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
-    "publishToCodeclimate": "codeclimate < coverage/lcov.info",
+    "publishToCodeclimate": "codeclimate < reports/coverage/lcov.info",
     "jshint": "gulp jshint",
     "jscs": "gulp jscs",
     "lint": "gulp lint",
