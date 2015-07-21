@@ -1,10 +1,18 @@
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 addons:
   code_climate:
-    repo_token: "e55c7b21ecb92332a55e3c8fe98821a8feaa3dc2ca9cb4f64f146e451762202c"
+    repo_token: e55c7b21ecb92332a55e3c8fe98821a8feaa3dc2ca9cb4f64f146e451762202c
 before_script:
-  - npm run lint
+- npm run lint
 after_script:
-  - npm run publishToCodeclimate
+- npm run publishToCodeclimate
+deploy:
+  provider: npm
+  email: pavlov.valerii@gmail.com
+  api_key:
+    secure: JzYKjaibtriRqEsSm/HD/bzlaXgq+cK33zuPmtMxKkE4ta+UpB1EcDdKH35HK2kbI94/Vu685PgnRj4iN1+0Cqk18p2Sq4DzsXademNn91SmIh/jj6HIYCiHaXrG0go4RPuTACeCwserGyxRJQQqjxDBwx6tqC6m8MWkkkvVRbw=
+  on:
+    tags: true
+    repo: greyd/di
