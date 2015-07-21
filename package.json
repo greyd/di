@@ -1,6 +1,6 @@
 {
   "name": "cdp-di",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Yen another dependency injection tool",
   "main": "index.js",
   "scripts": {
