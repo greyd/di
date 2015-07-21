@@ -12,6 +12,6 @@ deploy:
   provider: npm
   email: pavlov.valerii@gmail.com
   api_key:
-    secure: K8Qm4SmiEbT9xhaa1h4GqetAyQoDbehjuYdAdSNjV8VmDwi/yHmvideg4MbGfkDOqqS4V28wQiPxJwMZklRrgBtEbYMvcFaB/Ct/E0j7FZiG7qbbOTJJDigChhQc7yNBkWyHAoSHbUA4LjyHjtT+y+y6k2tsuk8zk7mtLr217oM=
+    secure: T/KLkulRkf4OVovrtonasR1vfl40dQpp9XGj9HaUHwpkOP2UdMi97OK4JxuSKA1Uo4Ukx50i+nZtSH99aPr4Lmk/Zp7HubbGgcD9hy3aa5w0FQTBzYaB8G+3dFrnG1/2tJ6syH0tIx4YPSGHGRzpMjc61jn/gNLOCH2YiJZVLOg=
   on:
     tags: true
