@@ -127,7 +127,7 @@ describe('DI::', function () {
             });
 
             this.injector.getAsync(['a', 'b', 'c', 'test'], function (x, y, z, test) {
-                expect(x).toBe(123);
+                expect(x).toBe(1);
                 expect(y).toBe(2);
                 expect(z).toBe(11);
                 expect(test).toBe(12);
