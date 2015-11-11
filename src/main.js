@@ -28,7 +28,6 @@ function addTo(reg) {
         return this;
     };
 }
-
 function getFrom(reg) {
     return function resolve(deps, next) {
         var opts = deps.map(function (name) {
